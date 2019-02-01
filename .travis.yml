@@ -1,6 +1,7 @@
 matrix:
   include:
-    - os: osx
+    - name: "macOS"
+      os: osx
       osx_image: xcode9.4
       language: node_js
       node_js: "10"
@@ -8,7 +9,8 @@ matrix:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
-    - os: linux
+    - name: "Windows + Linux"
+      os: linux
       services: docker
       language: generic
 
@@ -40,6 +42,11 @@ branches:
 deploy:
   provider: releases
   api_key: $OAUTH_TOKEN
-  file: "dist/electron-webpack-quick-start-0.0.0.dmg"
+  file:
+    - "dist/read-it-aloud-0.0.1.dmg"
+    - "dist/read-it-aloud-0.0.1-mac.zip"
+    - "dist/read-it-aloud-0.0.1.exe"
+    - "dist/read-it-aloud-0.0.1.AppImage"
+    - "dist/read-it-aloud-0.0.1_amd64.snap"
   skip_cleanup: true
   draft: true

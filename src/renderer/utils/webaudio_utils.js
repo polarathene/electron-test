@@ -70,6 +70,7 @@ const resample = async (input_buffer, target_rate) => {
   return await c.startRendering()
 }
 
+import WavConverter from '../utils/wavconverter'
 const exportAudio = async (buffer, audioType) => {
     const type = audioType || "audio/wav";
     const buf = await resample(buffer, 24000)

@@ -98,7 +98,7 @@ import moize from 'moize'
 import requestAudio from '../utils/gvoice_request'
 const getAudio = moize({maxSize: 50})(requestAudio)
 
-import WavConverter from '../utils/wavconverter'
+
 import audioUtils from '../utils/webaudio_utils'
 
 import _ from 'lodash' // used for debounce
