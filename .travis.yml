@@ -42,11 +42,15 @@ branches:
 deploy:
   provider: releases
   api_key: $OAUTH_TOKEN
+  file_glob: true
   file:
-    - "dist/read-it-aloud-0.0.1.dmg"
-    - "dist/read-it-aloud-0.0.1-mac.zip"
-    - "dist/read-it-aloud-0.0.1.exe"
-    - "dist/read-it-aloud-0.0.1.AppImage"
-    - "dist/read-it-aloud-0.0.1_amd64.snap"
+    - build/**/*.zip
+    - build/**/*.dmg
+    - build/**/*.deb
+    - build/**/*.snap
+    - build/**/*.AppImage
+    - build/**/*.tar.gz
   skip_cleanup: true
   draft: true
+  on:
+    tags: true
