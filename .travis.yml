@@ -44,7 +44,10 @@ deploy:
   api_key: $OAUTH_TOKEN
   file_glob: true
   file:
-    - dist/read-it-aloud**/*.exe
+    - dist/read-it-aloud*.exe
+    - dist/read-it-aloud**.exe
+    - dist/read-it-aloud/*.exe
+    - dist/read-it-aloud/**.exe
     - dist/**/*.zip
     - dist/**/*.dmg
     - dist/**/*.deb
