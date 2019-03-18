@@ -44,12 +44,12 @@ deploy:
   api_key: $OAUTH_TOKEN
   file_glob: true
   file:
-    - build/**/*.zip
-    - build/**/*.dmg
-    - build/**/*.deb
-    - build/**/*.snap
-    - build/**/*.AppImage
-    - build/**/*.tar.gz
+    - dist/**/*.zip
+    - dist/**/*.dmg
+    - dist/**/*.deb
+    - dist/**/*.snap
+    - dist/**/*.AppImage
+    - dist/**/*.tar.gz
   skip_cleanup: true
   draft: true
   on:
