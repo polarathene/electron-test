@@ -37,13 +37,14 @@ before_cache:
 
 branches:
   except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
+    - /^untagged/
 
 deploy:
   provider: releases
   api_key: $OAUTH_TOKEN
   file_glob: true
   file:
+    - dist/**/*.exe
     - dist/**/*.zip
     - dist/**/*.dmg
     - dist/**/*.deb
@@ -52,5 +53,3 @@ deploy:
     - dist/**/*.tar.gz
   skip_cleanup: true
   draft: true
-  on:
-    tags: true
