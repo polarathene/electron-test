@@ -37,14 +37,14 @@ before_cache:
 
 branches:
   except:
-    - /^untagged/
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 
 deploy:
   provider: releases
   api_key: $OAUTH_TOKEN
   file_glob: true
   file:
-    - dist/**/*.exe
+    - dist/read-it-aloud-**/*.exe
     - dist/**/*.zip
     - dist/**/*.dmg
     - dist/**/*.deb
@@ -53,3 +53,4 @@ deploy:
     - dist/**/*.tar.gz
   skip_cleanup: true
   draft: true
+  overwrite: true
