@@ -17,7 +17,7 @@ jobs:
         draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
-        tag_name: $TRAVIS_TAG
+        tag_name: 0.8
         target_commitish: $TRAVIS_COMMIT
 
     - stage: compile linux assets and publish
@@ -27,5 +27,5 @@ jobs:
         draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
-        tag_name: $TRAVIS_TAG
+        tag_name: 0.8
         target_commitish: $TRAVIS_COMMIT
