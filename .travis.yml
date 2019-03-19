@@ -18,7 +18,7 @@ jobs:
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
         tag_name: 0.8
-        target_commitish: $TRAVIS_COMMIT
+        overwrite: true
 
     - stage: compile linux assets and publish
       deploy:
@@ -28,4 +28,4 @@ jobs:
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
         tag_name: 0.8
-        target_commitish: $TRAVIS_COMMIT
+        overwrite: true
