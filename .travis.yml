@@ -1,34 +1,25 @@
-language: ruby
-sudo: false
-dist: trusty
-
-language: ruby
-
-install: skip
-script: date > file-$TRAVIS_OS_NAME.txt
-
 if: tag IS blank
+
+language: ruby
+  
+matrix:
+  include:
+    - name: "macOS Build"
+      os: osx
+      
+    - name: "Linux Build"
+      os: linux
+
+script: date > file-$TRAVIS_OS_NAME.txt
 
 before_deploy:
   - export TRAVIS_TAG="preview"
-  
-jobs:
-  include:
-    - stage: compile macos assets
-      os: osx
-      deploy:
-        provider: releases
-        api_key: $OAUTH_TOKEN
-        draft: true
-        skip_cleanup: true
-        file: file-$TRAVIS_OS_NAME.txt
-        overwrite: true
 
-    - stage: compile linux assets and publish
-      deploy:
-        provider: releases
-        api_key: $OAUTH_TOKEN
-        draft: true
-        skip_cleanup: true
-        file: file-$TRAVIS_OS_NAME.txt
-        overwrite: true
+deploy:
+  provider: releases
+  api_key: $OAUTH_TOKEN
+  skip_cleanup: true
+  draft: true
+  overwrite: true
+  file_glob: true
+  file: file-*.txt
