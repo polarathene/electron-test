@@ -17,6 +17,7 @@ jobs:
         draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
+        tag_name: "v0.8080"
         tag_commitish: master
         overwrite: true
 
@@ -27,5 +28,6 @@ jobs:
         draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
+        tag_name: "v0.8080"
         tag_commitish: master
         overwrite: true
