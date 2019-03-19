@@ -23,7 +23,7 @@ jobs:
       deploy:
         provider: releases
         api_key: $OAUTH_TOKEN
-        draft: false
+        draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
         on:
