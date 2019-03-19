@@ -7,6 +7,9 @@ language: ruby
 install: skip
 script: date > file-$TRAVIS_OS_NAME.txt
 
+before_deploy:
+  - export TRAVIS_TAG="v888"
+  
 jobs:
   include:
     - stage: compile macos assets
@@ -18,8 +21,6 @@ jobs:
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
         overwrite: true
-        on:
-          tags: true
 
     - stage: compile linux assets and publish
       deploy:
@@ -29,5 +30,3 @@ jobs:
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
         overwrite: true
-        on:
-          tags: true
