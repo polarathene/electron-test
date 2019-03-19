@@ -17,8 +17,10 @@ jobs:
         draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
-        tag_name: v0.9
+        tag_name: $TRAVIS_TAG
         overwrite: true
+        on:
+          tags: true
 
     - stage: compile linux assets and publish
       deploy:
