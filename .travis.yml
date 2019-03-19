@@ -17,9 +17,9 @@ jobs:
         draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
-        tag_name: "v0.8080"
-        tag_commitish: master
         overwrite: true
+        on:
+          tags: true
 
     - stage: compile linux assets and publish
       deploy:
@@ -28,6 +28,6 @@ jobs:
         draft: true
         skip_cleanup: true
         file: file-$TRAVIS_OS_NAME.txt
-        tag_name: "v0.8080"
-        tag_commitish: master
         overwrite: true
+        on:
+          tags: true
