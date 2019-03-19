@@ -10,7 +10,7 @@ script: date > file-$TRAVIS_OS_NAME.txt
 if: tag IS blank
 
 before_deploy:
-  - export TRAVIS_TAG="next"
+  - export TRAVIS_TAG="preview"
   
 jobs:
   include:
