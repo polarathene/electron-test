@@ -47,14 +47,17 @@ const requestAudio = async (input, speed) => {
       }
     }
 
-    let split_at = chunk.length - matched_index;
-    chunks.push(chunk.slice(0, split_at));
+    const split_at = chunk.length - matched_index;
+    const str_chunk = chunk.slice(0, split_at)
+    chunks.push(str_chunk);
 
     chunk_start += split_at;
-    max_chars += chunk_start;
+    max_chars += str_chunk.length;
   }
+
   // Final chunk
-  chunks.push(src_str.slice(chunk_start, max_chars));
+  const final_chunk = src_str.slice(chunk_start, max_chars)
+  chunks.push(final_chunk);
 
   // Get TTS request URLs (Array of strings)
   return await Promise.map(chunks, (chunk, i) => {

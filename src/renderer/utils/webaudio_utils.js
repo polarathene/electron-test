@@ -10,14 +10,24 @@ const _totalLength = (buffers) => {
     .reduce((a, b) => a + b, 0);
 }
 
-const fetchAudio = async (...filepaths) => {
+const fetchAudio = async (filepaths) => {
   const files = filepaths.map(async filepath => {
-    const buffer = await fetch(filepath).then(response =>
-        response.arrayBuffer()
-    );
 
-    // DOMException: Unable to decode audio data (eg URL 404)
-    return await _audioContext.decodeAudioData(buffer);
+    try {
+      const buffer = await fetch(filepath).then(response => {
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+          // response.status response.statusText
+        }
+
+        return response.arrayBuffer()
+      })
+      
+      return await _audioContext.decodeAudioData(buffer);
+    } catch (error) {
+      console.error(error)
+      // Actually handle the error here
+    }
   });
 
   return await Promise.all(files);

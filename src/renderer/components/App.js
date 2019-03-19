@@ -107,8 +107,14 @@ const stitchAudio = async (urls) => {
   console.log(urls)
   console.log(`Downloaded ${urls.length} files`);
 
-  const buffers = await audioUtils.fetchAudio(urls)
-  return audioUtils.concatAudio(buffers)
+  try {
+    const buffers = await audioUtils.fetchAudio(urls)
+
+    return audioUtils.concatAudio(buffers)
+  } catch (error) {
+    console.error(error)
+  }
+
 };
 
 
