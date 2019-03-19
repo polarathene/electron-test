@@ -1,3 +1,7 @@
+# Only build on code commits, not when tags are added(eg upon publishing a draft release)
+if: tag IS blank
+
+# Two build jobs, one on macOS, another on Linux with Docker to build Linux + Windows binaries
 matrix:
   include:
     - name: "macOS"
@@ -14,12 +18,18 @@ matrix:
       services: docker
       language: generic
 
+# Clear out any cached files here
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
+  
+# Keep files in these directories
 cache:
   directories:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
+# Actual build command/script for the two jobs in the matrix above to use (could probably move these into each one?)
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
@@ -33,12 +43,12 @@ script:
       yarn dist
     fi
 
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
-
+# Workaround for bug in Travis deploy logic, `tag_name` isn't used for draft releases,
+# Specify the tag to target in draft release instead for now via $TRAVIS_TAG
 before_deploy:
   - export TRAVIS_TAG="preview"
 
+# Deploy to Github Releases as draft release or update the existing one with the above `tag_name` value(any existing files will be overwritten)
 deploy:
   provider: releases
   api_key: $OAUTH_TOKEN
