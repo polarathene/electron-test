@@ -16,18 +16,25 @@ matrix:
     - name: "Windows + Linux"
       os: linux
       services: docker
-      language: generic
+      language: minimal
+      before_install:
+        - docker pull electronuserland/builder:wine
 
-# Clear out any cached files here
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
-  
-# Keep files in these directories
+# The following is archived and uploaded to S3 after the script phase.
+# The next job will download and use that cache, so large cache sizes will delay the build.
+# Cache expires 28 days after the build for open source projects.
+# In most cases, each matrix job will have a separate cache.
+# More details: https://docs.travis-ci.com/user/caching/
 cache:
+  yarn: true
   directories:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
+
+# Clean out these locations before archiving cache to tar
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
 
 # Actual build command/script for the two jobs in the matrix above to use (could probably move these into each one?)
 script:
@@ -49,6 +56,8 @@ before_deploy:
   - export TRAVIS_TAG="preview"
 
 # Deploy to Github Releases as draft release or update the existing one with the above `tag_name` value(any existing files will be overwritten)
+# Uses a glob pattern to lookup any file in the `dist` directory with the given extensions
+# If you want the build output before packaging, they are in "unpacked" directories prefixed by the OS (eg win-unpacked), linux, and maybe osx are the other two?
 deploy:
   provider: releases
   api_key: $OAUTH_TOKEN
@@ -57,10 +66,10 @@ deploy:
   overwrite: true
   file_glob: true
   file:
-    - dist/**/*.exe
-    - dist/**/*.zip
-    - dist/**/*.dmg
-    - dist/**/*.deb
-    - dist/**/*.snap
-    - dist/**/*.AppImage
-    - dist/**/*.tar.gz
+    - dist/*.exe
+    - dist/*.zip
+    - dist/*.dmg
+    - dist/*.deb
+    - dist/*.snap
+    - dist/*.AppImage
+    - dist/*.tar.gz
