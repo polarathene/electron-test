@@ -22,7 +22,6 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-      before_install: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
       install: yarn install --link-duplicates --frozen-lockfile
       script: yarn dist --macos zip
 
@@ -44,7 +43,7 @@ matrix:
             -v ~/.cache/electron:/root/.cache/electron \
             -v ~/.cache/electron-builder:/root/.cache/electron-builder \
             electronuserland/builder:wine \
-            /bin/bash -c "yarn install --link-duplicates --frozen-lockfile && yarn dist --win portable"
+            /bin/bash -c "yarn install --link-duplicates --frozen-lockfile && yarn dist --win zip"
 
     # Linux OS defaults to Ubuntu Trusty 14.04, Xenial 16.04 is the latest supported dist
     # https://docs.travis-ci.com/user/reference/xenial/
@@ -53,7 +52,9 @@ matrix:
       dist: xenial
       language: node_js
       node_js: "10"
-      before_install: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+      before_install: 
+        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+        - export PATH="$HOME/.yarn/bin:$PATH"
       install: yarn install --link-duplicates --frozen-lockfile
       script: yarn dist --linux AppImage
 
