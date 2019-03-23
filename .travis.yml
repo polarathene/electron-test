@@ -53,7 +53,7 @@ matrix:
       # Clean out these locations before archiving cache to tar
       before_cache: rm -rf $HOME/.cache/electron-builder/wine
       before_install: docker pull electronuserland/builder:wine
-      #install: skip
+      install: skip
       script:
         - |
           docker run --rm \
