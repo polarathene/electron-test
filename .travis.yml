@@ -34,6 +34,10 @@ matrix:
     - name: "macOS"
       os: osx
       script: yarn dist --macos zip
+      
+    - name: "Windows"
+      os: windows
+      script: yarn dist --win zip
 
     # Windows OS has initial support on Travis: 
     # https://docs.travis-ci.com/user/reference/windows/
