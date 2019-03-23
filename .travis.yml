@@ -20,7 +20,6 @@ before_install:
         - export PATH="$HOME/.yarn/bin:$PATH"
 
 install: yarn install --link-duplicates --frozen-lockfile
-script: yarn dist zip
 
 
 # Two build jobs, one on macOS, another on Linux with Docker to build Linux + Windows binaries
@@ -58,6 +57,7 @@ matrix:
     # Linux OS defaults to Ubuntu Trusty 14.04, Xenial 16.04 is the latest supported dist
     # https://docs.travis-ci.com/user/reference/xenial/
     - name: "Linux"
+      script: yarn dist --linux zip
 
 # The following is archived and uploaded to S3 after the script phase.
 # The next job will download and use that cache, so large cache sizes will delay the build.
