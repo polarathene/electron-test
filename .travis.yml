@@ -39,6 +39,10 @@ matrix:
     # https://docs.travis-ci.com/user/reference/xenial/
     - name: "Linux"
       script: yarn dist --linux zip
+    - name: "Linux AppImage"
+      script: yarn dist --linux AppImage
+    - name: "Linux Snap"
+      script: yarn dist --linux snap
 
     # Windows OS has initial support on Travis: 
     # https://docs.travis-ci.com/user/reference/windows/
@@ -47,15 +51,9 @@ matrix:
       services: docker
       language: generic
       # Clean out these locations before archiving cache to tar
-      before_cache: 
-        - rm -rf $HOME/.cache/electron-builder/wine
-        - >
-          mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-          | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
-      before_install: 
-        - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
-        #- docker pull electronuserland/builder:wine
-      install: skip
+      before_cache: rm -rf $HOME/.cache/electron-builder/wine
+      before_install: docker pull electronuserland/builder:wine
+      #install: skip
       script:
         - |
           docker run --rm \
@@ -76,7 +74,6 @@ cache:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
-    - $HOME/docker
 
 # Workaround for bug in Travis deploy logic, `tag_name` isn't used for draft releases,
 # Specify the tag to target in draft release instead for now via $TRAVIS_TAG
