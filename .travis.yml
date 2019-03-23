@@ -35,9 +35,10 @@ matrix:
       os: osx
       script: yarn dist --macos zip
       
-    - name: "Windows"
-      os: windows
-      script: yarn dist --win zip
+    # Linux OS defaults to Ubuntu Trusty 14.04, Xenial 16.04 is the latest supported dist
+    # https://docs.travis-ci.com/user/reference/xenial/
+    - name: "Linux"
+      script: yarn dist --linux zip
 
     # Windows OS has initial support on Travis: 
     # https://docs.travis-ci.com/user/reference/windows/
@@ -63,11 +64,6 @@ matrix:
             -v ~/.cache/electron-builder:/root/.cache/electron-builder \
             electronuserland/builder:wine \
             /bin/bash -c "yarn install --link-duplicates --frozen-lockfile && yarn dist --win zip"
-
-    # Linux OS defaults to Ubuntu Trusty 14.04, Xenial 16.04 is the latest supported dist
-    # https://docs.travis-ci.com/user/reference/xenial/
-    - name: "Linux"
-      script: yarn dist --linux zip
 
 # The following is archived and uploaded to S3 after the script phase.
 # The next job will download and use that cache, so large cache sizes will delay the build.
