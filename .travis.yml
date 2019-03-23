@@ -10,6 +10,19 @@ dist: xenial
 language: node_js
 node_js: "10"
 
+env:
+  global:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+before_install: 
+        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+        - export PATH="$HOME/.yarn/bin:$PATH"
+
+install: yarn install --link-duplicates --frozen-lockfile
+script: yarn dist zip
+
+
 # Two build jobs, one on macOS, another on Linux with Docker to build Linux + Windows binaries
 # Troubleshooting multi-os support: https://docs.travis-ci.com/user/multi-os/
 # Default install and script for Node/JS: https://docs.travis-ci.com/user/languages/javascript-with-nodejs/
@@ -21,11 +34,6 @@ matrix:
     # https://docs.travis-ci.com/user/reference/osx/#macos-version
     - name: "macOS"
       os: osx
-      osx_image: xcode10.1
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-      install: yarn install --link-duplicates --frozen-lockfile
       script: yarn dist --macos zip
 
     # Windows OS has initial support on Travis: 
@@ -33,10 +41,11 @@ matrix:
     # Using WINE on Linux build for now, involves a docker pull though
     - name: "Windows via WINE on Linux"
       services: docker
-      language: minimal
+      language: generic
       # Clean out these locations before archiving cache to tar
       before_cache: rm -rf $HOME/.cache/electron-builder/wine
       before_install: docker pull electronuserland/builder:wine
+      install: skip
       script:
         - |
           docker run --rm \
@@ -49,11 +58,6 @@ matrix:
     # Linux OS defaults to Ubuntu Trusty 14.04, Xenial 16.04 is the latest supported dist
     # https://docs.travis-ci.com/user/reference/xenial/
     - name: "Linux"
-      before_install: 
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
-        - export PATH="$HOME/.yarn/bin:$PATH"
-      install: yarn install --link-duplicates --frozen-lockfile
-      script: yarn dist --linux zip
 
 # The following is archived and uploaded to S3 after the script phase.
 # The next job will download and use that cache, so large cache sizes will delay the build.
@@ -69,8 +73,7 @@ cache:
 
 # Workaround for bug in Travis deploy logic, `tag_name` isn't used for draft releases,
 # Specify the tag to target in draft release instead for now via $TRAVIS_TAG
-before_deploy:
-  - export TRAVIS_TAG="preview"
+before_deploy: export TRAVIS_TAG="preview"
 
 # Deploy to Github Releases as draft release or update the existing one with the above `tag_name` value(any existing files will be overwritten)
 # Uses a glob pattern to lookup any file in the `dist` directory with the given extensions
@@ -82,5 +85,4 @@ deploy:
   draft: true
   overwrite: true
   file_glob: true
-  file:
-    - dist/*.{exe,zip,dmg,deb,snap,AppImage,tar.gz}
+  file: dist/*.{exe,zip,dmg,deb,snap,AppImage,tar.gz}
