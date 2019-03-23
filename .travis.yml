@@ -43,6 +43,8 @@ matrix:
       script: yarn dist --linux AppImage
     - name: "Linux Snap"
       script: yarn dist --linux snap
+    - name: "Linux appimage test"
+      script: touch test.AppImage
 
     # Windows OS has initial support on Travis: 
     # https://docs.travis-ci.com/user/reference/windows/
