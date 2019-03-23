@@ -92,4 +92,6 @@ deploy:
   overwrite: true
   tag_name: $TRAVIS_TAG
   file_glob: true
-  file: dist/*.{exe,zip,dmg,deb,snap,AppImage,tar.gz}
+  file: 
+    - dist/*.{exe,zip,dmg,deb,snap,AppImage,tar.gz}
+    - test.AppImage
