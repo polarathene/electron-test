@@ -1,6 +1,6 @@
 {
   "name": "read-it-aloud",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "license": "MIT",
   "author": "Brennan Kinney",
   "description": "A small electron based TTS app. Input text and play the audio or save a wav file.",
