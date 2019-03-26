@@ -44,7 +44,7 @@ matrix:
     - name: "Linux Snap"
       script: yarn dist --linux snap
     - name: "Linux appimage test"
-      script: touch test.AppImage
+      script: touch ./dist/test.AppImage
 
     # Windows OS has initial support on Travis: 
     # https://docs.travis-ci.com/user/reference/windows/
@@ -63,7 +63,7 @@ matrix:
             -v ~/.cache/electron:/root/.cache/electron \
             -v ~/.cache/electron-builder:/root/.cache/electron-builder \
             electronuserland/builder:wine \
-            /bin/bash -c "yarn install --link-duplicates --frozen-lockfile && yarn dist --win zip"
+            /bin/bash -c "yarn install --link-duplicates --frozen-lockfile && yarn dist --win zip nsis"
 
 # The following is archived and uploaded to S3 after the script phase.
 # The next job will download and use that cache, so large cache sizes will delay the build.
