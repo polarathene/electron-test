@@ -49,8 +49,10 @@ matrix:
     - name: "Linux appimage test"
       env: CACHE_BUSTER="Avoid sharing the same cache key"
       language: minimal
+      cache: false
+      before_install: skip
       install: skip
-      script: echo "Hello" > ./test.AppImage
+      script: echo "Hello" > test.AppImage && fallocate -l 100M bigfile.AppImage
 
     # Windows OS has initial support on Travis: 
     # https://docs.travis-ci.com/user/reference/windows/
