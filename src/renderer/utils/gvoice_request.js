@@ -42,7 +42,6 @@ const requestAudio = async (input, speed) => {
 
       // Google doesn't check for punctuation symbols, only space
       if (src_str[max_chars] != ' ') {
-        consle.log('spacetime!')
         matched_index = chunk_rev.search(' ') // + 1
       }
     }
