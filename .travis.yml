@@ -38,12 +38,18 @@ matrix:
     # Linux OS defaults to Ubuntu Trusty 14.04, Xenial 16.04 is the latest supported dist
     # https://docs.travis-ci.com/user/reference/xenial/
     - name: "Linux"
+      env: CACHE_BUSTER="zip"
       script: yarn dist --linux zip
     - name: "Linux AppImage"
+      env: CACHE_BUSTER="appimage"
       script: yarn dist --linux AppImage
     - name: "Linux Snap"
+      env: CACHE_BUSTER="snap"
       script: yarn dist --linux snap
     - name: "Linux appimage test"
+      env: CACHE_BUSTER="Avoid sharing the same cache key"
+      language: minimal
+      install: skip
       script: echo "Hello" > ./test.AppImage
 
     # Windows OS has initial support on Travis: 
